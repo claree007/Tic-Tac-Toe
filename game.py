@@ -27,8 +27,8 @@ def move(board, size, player, row, col):
         board[row][col] = 'X' if player=="You" else 'O'
         show_game()
         return board, True
-    except IndexError as e:
-        print("Trying to play on positions out of board? Check input", e)
+    except IndexError:
+        print("Trying to play on positions out of board? Check input")
         return board, False
     except Exception as e:
         print("Something went wrong.", e)
@@ -66,7 +66,7 @@ def check_win(current_game, size):
     return False
 
 
-game_size = 4
+game_size = 3
 play = True
 
 while play:
@@ -92,9 +92,16 @@ while play:
         print("Current Player:", current_player)
         while not played:
             if current_player == "You":
-                # input where the user wants to make a move
-                row = int(input("Enter row: "))
-                col = int(input("Enter column: "))
+                product = -1
+                while product < 0 or product > (game_size - 1)*(game_size - 1):
+                    # input where the user wants to make a move
+                    try:
+                        row = abs(int(input("Enter row: ")))
+                        col = abs(int(input("Enter column: ")))
+                        product = row * col
+                        print(product)
+                    except:
+                        print("Enter a valid number!!")
             else:
                 try:
                     # computer's move
